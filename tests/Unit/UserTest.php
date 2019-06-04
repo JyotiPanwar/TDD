@@ -16,15 +16,13 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testValidateFirst()
+    public function testValidateFirst() //Q1,Q2
     {
-        $data= array("name"=>"mdmmmm",
-        "email"=>"gg@mmdmm.com",
+        $data= array("name"=>"eeeee",
+        "email"=>"ee@ff.com",
         "password"=>"@@@@@@"
         );
-        $this->assertArrayHasKey('email', $data); 
-        $this->assertArrayHasKey('name', $data);
-		$this->assertArrayHasKey('password', $data);       
+        $this->assertArrayHasKey('email', $data);  
         $validator = User::validateUser($data);
         $this->assertTrue($validator);
         return $data;
@@ -42,7 +40,7 @@ class UserTest extends TestCase
     /**
      * @depends testUserCreate
      */
-    public function testCreateProduct($user_id)
+    public function testCreateProduct($user_id) //Q3
     {   
         $pdata= array("user_id"=>$user_id,
         "name"=>"Productname",
@@ -71,7 +69,7 @@ class UserTest extends TestCase
        return $c;
     }
 
-    public function ABProvider()
+    public function ABProvider() 
     {
         return array(
           array(0, 0, 0),
@@ -83,15 +81,15 @@ class UserTest extends TestCase
      * @depends testA
      * @depends testB
      */
-    public function testC($a,$c)
+    public function testC($a,$c) //Q5
     {
        $this->assertEquals($c, $a+$a);
 
     }
     /**
-     * @dataProvider UrlProvider
+     * @dataProvider urlProvider
      */
-    public function testUrl($url)
+    public function testUrl($url) //Q6
     {
         $url = [
             'url'=>$url
@@ -104,11 +102,37 @@ class UserTest extends TestCase
         $this->assertEquals('The url format is invalid.', $validator->errors()->first());
 
     }
-    public function UrlProvider()
+    public function urlProvider()
     {
         return array(
           array('//invalid-url.com'),
           array('s//example.com')
         );
+    }
+    public function dependCheck()
+    {
+        return 20;
+    }    
+     /**
+     * @depends dependCheck
+     * @dataProvider checkProvider
+     */
+    public function testProviderDepend($a, $b): void
+    {
+       $this->assertEquals($a, $b);
+    }
+    public function checkProvider() //Q9 depend and provider does't work together
+    {
+        return array(
+          array(30),
+          array(40),
+          array(20),
+        );
+    }
+    public function testTenth(): void  //Q10
+    {
+        $a = [1, 2, 3];
+        
+        $this->assertCount(4, $a);
     }
 }
