@@ -16,6 +16,10 @@ class UserTest extends TestCase
      *
      * @return void
      */
+    public function testBasicTest()
+    {
+        $this->assertTrue(true);
+    }
     public function testValidateFirst() //Q1,Q2
     {
         $data= array("name"=>"eeeee",
