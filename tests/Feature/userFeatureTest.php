@@ -34,10 +34,10 @@ class userFeatureTest extends ParentTestClass
     /**
      * @depends testUserSignUp
      */
-    public function testUserWithDuplicateEmail($user)
+   /* public function testUserWithDuplicateEmail($user)
     {
         $response = $this->post('/signup',$user);
         $response->assertStatus(201);
        
-    }
+    }*/
 }
