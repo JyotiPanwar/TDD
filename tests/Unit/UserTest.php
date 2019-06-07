@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
+    use WithFaker;
     /**
      * A basic unit test example.
      *
@@ -22,9 +23,9 @@ class UserTest extends TestCase
     }
     public function testValidateFirst() //Q1,Q2
     {
-        $data= array("name"=>"eeeee",
-        "email"=>"ee@ff.com",
-        "password"=>"@@@@@@"
+        $data= array("name"=>$this->faker->firstName(),
+        "email"=>$this->faker->email(),
+        "password"=>bcrypt('secret')
         );
         $this->assertArrayHasKey('email', $data);  
         $validator = User::validateUser($data);
@@ -47,8 +48,8 @@ class UserTest extends TestCase
     public function testCreateProduct($user_id) //Q3
     {   
         $pdata= array("user_id"=>$user_id,
-        "name"=>"Productname",
-        "description"=>"example",       
+        "name"=>$this->faker->lastName,
+        "description"=>$this->faker->paragraph,       
         );     
         $validator = Products::validateProduct($pdata);
         $this->assertTrue($validator);
@@ -137,6 +138,6 @@ class UserTest extends TestCase
     {
         $a = [1, 2, 3];
         
-        $this->assertCount(4, $a);
+        $this->assertCount(3, $a);
     }
 }
