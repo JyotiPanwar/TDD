@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\ParentTestClass;
+use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -71,8 +72,17 @@ class userFeatureTest extends ParentTestClass
         $response->assertStatus(200);
     }
     public function testUserLogin()
-    {
-        $response = $this->post('/login',$this->setData());
-        $this->assertAuthenticatedAs($this->setData());
+    {   
+        $user= factory(User::class)->create([
+            'id' => random_int(1, 100),
+            'password' => bcrypt($password = '11111111'),
+        ]);        
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => $password,
+            'remember' => 'on',
+        ]);
+        $response->assertRedirect('/home');
+        $this->assertAuthenticatedAs($user);
     }
 }

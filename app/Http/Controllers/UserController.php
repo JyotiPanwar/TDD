@@ -26,7 +26,7 @@ class UserController extends Controller
     	$user = new User();
     	$user->name = $request->name;		
 		$user->email = $request->email;
-		$user->password = $request->password;
+		$user->password = bcrypt($request->password);
 		$user->save();
     	return $user;
 	}
@@ -34,7 +34,7 @@ class UserController extends Controller
 	{	
 		$rules = [
         	'email' => 'email|required',
-            'password'=>'required|max:8|min:6',    
+            'password'=>'required|min:6',    
    		];        
       	$validator = Validator::make($request->all(), $rules);
 		if ($validator->fails()) {
