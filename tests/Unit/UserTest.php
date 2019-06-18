@@ -23,9 +23,9 @@ class UserTest extends TestCase
     }
     public function testValidateFirst() //Q1,Q2
     {
-        $data= array("name"=>$this->faker->firstName(),
+        $data= array("name"=>$this->faker->name(),
         "email"=>$this->faker->email(),
-        "password"=>bcrypt('secret')
+        "password"=>$this->faker->numerify('secret##')
         );
         $this->assertArrayHasKey('email', $data);  
         $validator = User::validateUser($data);
@@ -48,8 +48,8 @@ class UserTest extends TestCase
     public function testCreateProduct($user_id) //Q3
     {   
         $pdata= array("user_id"=>$user_id,
-        "name"=>$this->faker->lastName,
-        "description"=>$this->faker->paragraph,       
+        "name"=>$this->faker->name(),
+        "description"=>$this->faker->paragraph(),       
         );     
         $validator = Products::validateProduct($pdata);
         $this->assertTrue($validator);
