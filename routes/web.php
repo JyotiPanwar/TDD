@@ -15,8 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/signup', 'UserController@create');
-Route::post('/login', 'UserController@doLogin');
+Route::post('/user-login', 'UserController@doLogin')->name('user-login');
 
 Auth::routes();
 
+Route::get('/logout', 'UserController@doLogout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');

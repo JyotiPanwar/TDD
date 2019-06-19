@@ -77,12 +77,39 @@ class userFeatureTest extends ParentTestClass
             'id' => random_int(1, 100),
             'password' => bcrypt($password = '11111111'),
         ]);        
-        $response = $this->post('/login', [
+        $response = $this->post('/user-login', [
             'email' => $user->email,
             'password' => $password,
             'remember' => 'on',
         ]);
         $response->assertRedirect('/home');
         $this->assertAuthenticatedAs($user);
+    }
+    public function testLoginEmailValidation()
+    {
+        $data = [
+            'email' => 'test',
+            'password'=>bcrypt('11111111'),           
+        ];
+        $response = $this->post('/user-login', $data);
+        $response->assertRedirect('/login');
+        $response->assertSessionHasErrors('email');
+        $this->assertGuest();
+    }
+    public function testLoginPasswordValidation()
+    {
+        $data = [
+            'email' => 'jyoti@ucreate.co.in',
+            'password'=>'test',           
+        ];
+        $response = $this->post('/user-login', $data);
+        $response->assertRedirect('/login');
+        $response->assertSessionHasErrors('password');
+        $this->assertGuest();
+    }
+    public function testLogout()
+    {
+        $data = $this->get('/logout');
+        $data->assertRedirect('/login');
     }
 }

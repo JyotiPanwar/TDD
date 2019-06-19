@@ -35,14 +35,23 @@ class UserController extends Controller
 		$rules = [
         	'email' => 'email|required',
             'password'=>'required|min:6',    
-   		];        
+   		];     
+   		$user = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];   
       	$validator = Validator::make($request->all(), $rules);
 		if ($validator->fails()) {
             return redirect('/login')->withErrors($validator->errors())->withInput();
         }
-        if (Auth::attempt($request->all())) {
+        if (Auth::attempt($user)) {
 	        return redirect('/home');
 
 	    }      
 	}
+	public function doLogout()
+    {
+        Auth::logout();
+        return Redirect::to('login');
+    }
 }
