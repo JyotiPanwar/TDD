@@ -80,7 +80,6 @@ class userFeatureTest extends ParentTestClass
         $response = $this->post('/user-login', [
             'email' => $user->email,
             'password' => $password,
-            'remember' => 'on',
         ]);
         $response->assertRedirect('/home');
         $this->assertAuthenticatedAs($user);
